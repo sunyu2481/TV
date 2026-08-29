@@ -9,10 +9,16 @@ on:
 permissions:
   contents: write
 
+env:
+  # FongMi 定制版 media3（含 mpvplayer / ui_danmaku 模块），TV 代码依赖它
+  # 用自己 fork 的副本，锁定版本保证构建可复现；需同步上游时用 GitHub 的 Sync fork
+  MEDIA_REPO: https://github.com/sunyu2481/media.git
+  MEDIA_BRANCH: release-1.11.0-fongmi
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
 
     steps:
       - name: Checkout
@@ -43,6 +49,34 @@ jobs:
         run: |
           mkdir -p signing
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > signing/release.jks
+
+      - name: 构建 FongMi 定制版 media3（lib-* AAR）
+        run: |
+          git clone --depth 1 --branch "$MEDIA_BRANCH" "$MEDIA_REPO" ../media
+          cd ../media
+          # 复刻 FongMi 本地的 assembleLibs：构建所有 lib- 模块
+          ./gradlew :lib-common:assembleRelease \
+                    :lib-container:assembleRelease \
+                    :lib-database:assembleRelease \
+                    :lib-datasource:assembleRelease \
+                    :lib-datasource-okhttp:assembleRelease \
+                    :lib-datasource-rtmp:assembleRelease \
+                    :lib-decoder:assembleRelease \
+                    :lib-decoder-ffmpeg:assembleRelease \
+                    :lib-decoder-mpegh:assembleRelease \
+                    :lib-effect:assembleRelease \
+                    :lib-exoplayer:assembleRelease \
+                    :lib-exoplayer-dash:assembleRelease \
+                    :lib-exoplayer-hls:assembleRelease \
+                    :lib-exoplayer-rtsp:assembleRelease \
+                    :lib-exoplayer-smoothstreaming:assembleRelease \
+                    :lib-extractor:assembleRelease \
+                    :lib-mpvplayer:assembleRelease \
+                    :lib-session:assembleRelease \
+                    :lib-ui:assembleRelease \
+                    :lib-ui-danmaku:assembleRelease
+          # 把 AAR 复制到 TV 项目的 app/libs/
+          find libraries -name "lib-*-release.aar" -exec cp {} "$GITHUB_WORKSPACE/app/libs/" \;
 
       - name: 构建 release APK
         run: ./gradlew assembleLeanbackRelease assembleMobileRelease --stacktrace
