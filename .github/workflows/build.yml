@@ -27,6 +27,11 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: 安装 Python 3.10（Chaquopy 构建依赖）
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
       - name: 生成 local.properties（签名信息）
         run: |
           echo "storeFile=../signing/release.jks" > local.properties
