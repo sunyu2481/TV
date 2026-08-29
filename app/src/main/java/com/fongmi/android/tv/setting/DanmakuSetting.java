@@ -313,7 +313,6 @@ public class DanmakuSetting {
         putTextScale(config.textScale);
         putTransparency(config.transparency);
         putTextBold(config.textBold);
-        putFont(null);
         putStyleMode(config.styleMode);
         putShadowTransparency(config.shadowTransparency);
         putStrokeWidthMultiplier(config.strokeWidthMultiplier);

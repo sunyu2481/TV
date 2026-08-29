@@ -67,7 +67,6 @@ public final class DanmakuSettingDialog {
 
         @Override
         public void onDestroyView() {
-            if (panel != null) panel.release();
             panel = null;
             binding = null;
             super.onDestroyView();
@@ -102,7 +101,6 @@ public final class DanmakuSettingDialog {
 
         @Override
         public void onDestroyView() {
-            if (panel != null) panel.release();
             panel = null;
             binding = null;
             super.onDestroyView();

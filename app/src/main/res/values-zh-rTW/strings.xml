@@ -307,6 +307,8 @@
     <string name="player_mpv_conf_priority_hint">介面設定優先，重進播放頁生效。</string>
     <string name="player_mpv_conf_conflict_hint">介面設定將覆蓋：%1$s</string>
     <string name="player_mpv_conf_import_success">已匯入 mpv.conf</string>
+    <string name="player_mpv_conf_import_failed">無法匯入 mpv.conf</string>
+    <string name="player_mpv_conf_save_failed">無法儲存 mpv.conf</string>
     <string name="player_ua">User-Agent</string>
 
     <!-- Danmaku -->
