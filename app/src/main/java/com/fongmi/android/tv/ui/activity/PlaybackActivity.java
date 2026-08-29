@@ -410,7 +410,6 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     }
 
     private void syncPlayerView(Player player) {
-        player().bindPlayerView(getPlayerView());
         danmakuController.bind(getPlayerView());
         getPlayerView().setPlayer(player);
         syncDanmakuSource();
@@ -427,7 +426,7 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
         danmakuController.setOkHttpClient(OkHttp.player());
         danmakuController.setEnabled(DanmakuSetting.isShow());
         danmakuController.setConfig(DanmakuSetting.getConfig());
-        SubtitleSetting.applyStyle(playerView.getSubtitleView());
+        SubtitleSetting.applyStyle(this, playerView.getSubtitleView());
     }
 
     private void syncDanmakuSource() {

@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.media3.ui.danmaku.DanmakuConfig;
 
 import com.fongmi.android.tv.api.config.VodConfig;
-import com.fongmi.android.tv.player.subtitle.ExternalFont;
 import com.github.catvod.utils.Prefers;
 
 public class DanmakuSetting {
@@ -106,17 +105,9 @@ public class DanmakuSetting {
     }
 
     @Nullable
-    public static ExternalFont.Item getFont() {
-        return ExternalFont.find(Prefers.getString("danmaku_font", ""));
-    }
-
-    public static void putFont(@Nullable ExternalFont.Item font) {
-        Prefers.put("danmaku_font", font == null ? "" : font.fileName());
-    }
-
-    @Nullable
     private static Typeface getTypeface() {
-        return ExternalFont.getTypeface(getFont());
+        // 外部字体功能依赖未推送的 media 定制代码，恢复前返回系统默认字体
+        return null;
     }
 
     public static int getStyleMode() {
